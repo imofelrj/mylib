@@ -1,16 +1,15 @@
 #pragma once
 
-#include <bits/stdc++.h>
-
-using namespace std;
+#include <memory>
 
 template<class T>
 class alloc_vec
 {
 protected:
-    allocator<T> alloc;
-    T* a = alloc.allocate(100);
+    std::allocator<T> alloc;
+    T* a = alloc.allocate(maxn);
     int maxn=100,sizenow=0;
+    void update();
     
 public:
     alloc_vec() {}
@@ -21,6 +20,7 @@ public:
 template<class T> 
 void alloc_vec<T>::push_back(const T& item0)
 {
+    if (sizenow==maxn-2)  update();
     this->alloc.construct(a+sizenow,item0);
     ++ sizenow ;
 }
@@ -28,4 +28,14 @@ template<class T>
 T alloc_vec<T>:: operator [] (const int & n)
 {
     return *((this->a)+n);
+}
+template<class T>
+void alloc_vec<T>::update()
+{
+    maxn *= 2;
+    T* b = this->alloc.allocate(maxn);
+    for (int i=0;i<sizenow;++i)
+        *(b+i) = *(a+i);
+    a = alloc.allocate(maxn);
+    a = b;
 }
