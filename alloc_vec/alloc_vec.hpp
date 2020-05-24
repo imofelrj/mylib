@@ -5,18 +5,19 @@
 template<class T>
 class alloc_vec
 {
-private:
+protected:
     int maxn=100,sizenow=0;
     std::allocator<T> alloc;
     T * a = alloc.allocate(maxn);
-    void update();
+    inline void update();
 public:
-    void push_back(const T & item0);
+    inline void push_back(const T & item0);
     alloc_vec() = default;
     ~alloc_vec();
     T operator [] (const int & n) const ;
 };
 template<class T>
+inline
 void alloc_vec<T>::update()
 {
     maxn *= 2;
@@ -26,6 +27,7 @@ void alloc_vec<T>::update()
     a = b;
 }
 template<class T>
+inline
 void alloc_vec<T>::push_back(const T& item0)
 {
     if (sizenow==maxn-1)    update();
