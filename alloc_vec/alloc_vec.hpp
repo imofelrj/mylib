@@ -14,7 +14,9 @@ public:
     inline void push_back(const T & item0);
     alloc_vec() = default;
     ~alloc_vec();
-    T operator [] (const int & n) const ;
+    T operator [] (const int & n) const {return *(a+n);}
+    int size() const {return sizenow;}
+    int capacity() const {return maxn;}
 };
 template<class T>
 inline
@@ -33,11 +35,6 @@ void alloc_vec<T>::push_back(const T& item0)
     if (sizenow==maxn-1)    update();
     alloc.construct(a+sizenow,item0);
     ++ sizenow;
-}
-template<class T>
-T alloc_vec<T>::operator [] (const int & n) const
-{
-    return *(a+n);
 }
 template<class T>
 alloc_vec<T>::~alloc_vec()
