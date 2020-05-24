@@ -17,8 +17,9 @@ public:
     T operator [] (const int & n) const {return *(a+n);}
     int size() const {return sizenow;}
     int capacity() const {return maxn;}
+    inline void clear();
     inline void insert(const int &,const T &);
-    inline void erase(int);
+    inline void erase(const int &);
 };
 template<class T> inline void alloc_vec<T>::update()
 {
@@ -49,9 +50,8 @@ template<class T> inline void alloc_vec<T>::insert(const int & pos,const T & ite
         alloc.construct(a+i,*(a+i-1));
     alloc.construct(a+pos,item0);
 }
-template<class T> inline void alloc_vec<T>::erase(int pos1)
+template<class T> inline void alloc_vec<T>::erase(const int & pos)
 {
-    int pos = pos1;
     auto end = a+sizenow-1;
     -- sizenow ;
     if (pos==sizenow-1)
@@ -59,4 +59,4 @@ template<class T> inline void alloc_vec<T>::erase(int pos1)
     for (int i=pos;i<sizenow-1;++i)
         alloc.construct(a+i,*(a+i+1));
     alloc.construct(a+sizenow-1,*end);
-}// TODO
+}
