@@ -16,4 +16,7 @@ int main()
     // 2 2 3 4 5 6
     v.erase(2);
     std::cout<<v[0]<<v[1]<<v[2]<<v[3]<<v[4]<<std::endl;
+    v.clear();
+    v.push_back(4);
+    std::cout<<v[0]<<std::endl;
 }

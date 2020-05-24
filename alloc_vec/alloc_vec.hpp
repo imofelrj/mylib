@@ -60,3 +60,12 @@ template<class T> inline void alloc_vec<T>::erase(const int & pos)
         alloc.construct(a+i,*(a+i+1));
     alloc.construct(a+sizenow-1,*end);
 }
+template<class T> inline void alloc_vec<T>::clear()
+{
+    for (int i=0;i<sizenow;i++)
+    {
+        alloc.destroy(a+i);
+    }
+    alloc.deallocate(a,maxn);
+    a = alloc.allocate(maxn);
+}
