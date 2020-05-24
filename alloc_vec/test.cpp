@@ -5,5 +5,11 @@ alloc_vec<int> v;
 
 int main() 
 {
-    for (int i=0;i<10000;i++)   v.push_back(i),std::cout<<v[i]<<std::endl;
+    v.push_back(2);
+    v.push_back(3);
+    v.push_back(4);
+    v.insert(1,2);
+    // 2 2 3 4
+    v.erase(2);
+    std::cout<<v[0]<<v[1]<<v[2]<<std::endl;
 }

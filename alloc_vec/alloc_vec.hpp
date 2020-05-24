@@ -17,10 +17,10 @@ public:
     T operator [] (const int & n) const {return *(a+n);}
     int size() const {return sizenow;}
     int capacity() const {return maxn;}
+    inline void insert(const int &,const T &);
+    inline void erase(int);
 };
-template<class T>
-inline
-void alloc_vec<T>::update()
+template<class T> inline void alloc_vec<T>::update()
 {
     maxn *= 2;
     T * b = alloc.allocate(maxn);
@@ -28,9 +28,7 @@ void alloc_vec<T>::update()
         alloc.construct(b+i,*(a+i));
     a = b;
 }
-template<class T>
-inline
-void alloc_vec<T>::push_back(const T& item0)
+template<class T> inline void alloc_vec<T>::push_back(const T& item0)
 {
     if (sizenow==maxn-1)    update();
     alloc.construct(a+sizenow,item0);
@@ -43,3 +41,22 @@ alloc_vec<T>::~alloc_vec()
         alloc.destroy(a+i);
     alloc.deallocate(a,maxn);
 }
+template<class T> inline void alloc_vec<T>::insert(const int & pos,const T & item0)
+{
+    if (sizenow==maxn-1)    update();
+    ++ sizenow;
+    for (int i=sizenow-1;i>pos;--i)
+        alloc.construct(a+i,*(a+i-1));
+    alloc.construct(a+pos,item0);
+}
+template<class T> inline void alloc_vec<T>::erase(int pos1)
+{
+    int pos = pos1;
+    auto end = a+sizenow-1;
+    -- sizenow ;
+    if (pos==sizenow-1)
+        return;
+    for (int i=pos;i<sizenow-1;++i)
+        alloc.construct(a+i,*(a+i+1));
+    alloc.construct(a+sizenow-1,*end);
+}// TODO
