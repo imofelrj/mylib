@@ -12,10 +12,9 @@ private:
     void update();
 public:
     void push_back(const T & item0);
-    T operator [] (const int & n)
-    {
-        return *(a+n);
-    }
+    alloc_vec() = default;
+    ~alloc_vec();
+    T operator [] (const int & n) const ;
 };
 template<class T>
 void alloc_vec<T>::update()
@@ -32,4 +31,16 @@ void alloc_vec<T>::push_back(const T& item0)
     if (sizenow==maxn-1)    update();
     alloc.construct(a+sizenow,item0);
     ++ sizenow;
+}
+template<class T>
+T alloc_vec<T>::operator [] (const int & n) const
+{
+    return *(a+n);
+}
+template<class T>
+alloc_vec<T>::~alloc_vec()
+{
+    for (int i=0;i<maxn;i++)
+        alloc.destroy(a+i);
+    alloc.deallocate(a,maxn);
 }
