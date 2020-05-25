@@ -1,9 +1,9 @@
 #include <iostream>
-#include "alloc_vec.hpp"
+#include "alloc_vec_new.hpp"
 
 alloc_vec<int> v;
 
-int main() 
+int main()
 {
     for (int i=0;i<1000000;i++)  v.push_back(i);
 }
