@@ -28,20 +28,20 @@ class alloc_vec{
         friend std::ostream& operator << <> (std::ostream& os,const alloc_vec<T> &mv);
         alloc_vec()  {}
         alloc_vec(const alloc_vec<T> &mv)  {*this = mv;}
-        // ~alloc_vec() {delete[] item;}
+        ~alloc_vec();
         inline void push_back(const T& item0);
         inline void push_front(const T& item0) {insert(0,item0);}
         inline void erase(const int& pos);
         inline void insert(const int& pos,const T& it);
         inline void pop_back() {erase(sizenow-1);}
         inline void pop_front() {erase(0);}
-        // inline void clear();
+        inline void clear();
         inline bool empty() const ;
-        // inline T front() const {return *begin();}
-        // inline T back() const {return *end();}
+        inline T front() const {return *a;}
+        inline T back() const {return *(a+sizenow);}
         inline int size()  const {return sizenow;}
         inline int capacity() const {return maxn;}
-        inline T& operator [] (const int& n) const ;
+        inline T& operator [] (const int& n) const {return *(a+n);};
         /*
         alloc_vec operator = (const alloc_vec<T> &mv);
         alloc_vec operator = (const int& n);
@@ -52,6 +52,13 @@ class alloc_vec{
         */
 };
 template<typename T>
+alloc_vec<T>::~alloc_vec()
+{
+    for (int i=0;i<maxn;i++)
+        alloc.destroy(a+i);
+    alloc.deallocate(a,maxn);
+}
+template<typename T>
 inline
 void alloc_vec<T>::update() {
     maxn *= 2;
@@ -59,6 +66,15 @@ void alloc_vec<T>::update() {
     for (int i=0;i<sizenow;++i)
         alloc.construct(b+i,*(a+i));
     a = b;
+}
+template<typename T>
+inline void alloc_vec<T>::clear()
+{
+    for (int i=0;i<sizenow;i++)
+        alloc.destroy(a+i);
+    alloc.deallocate(a,maxn);
+    a = alloc.allocate(maxn);
+    sizenow = 0;
 }
 template<typename T>
 inline
