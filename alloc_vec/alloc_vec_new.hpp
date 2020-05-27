@@ -42,8 +42,8 @@ class alloc_vec{
         inline int size()  const {return sizenow;}
         inline int capacity() const {return maxn;}
         inline T& operator [] (const int& n) const {return *(a+n);};
+        alloc_vec & operator = (const alloc_vec<T> &mv);
         /*
-        alloc_vec operator = (const alloc_vec<T> &mv);
         alloc_vec operator = (const int& n);
         alloc_vec operator + (const alloc_vec<T> &mv);
         alloc_vec operator += (const alloc_vec<T> &mv);
@@ -121,15 +121,15 @@ void alloc_vec<T>::clear()
     sizenow = 0;
 }
 */
-/*
 template<typename T>
 inline
-alloc_vec<T> alloc_vec<T>::operator = (const alloc_vec<T> &mv)
+alloc_vec<T>& alloc_vec<T>::operator = (const alloc_vec<T> &mv)
 {
-    this->clear();
-    for (int i=0;i<mv.size();i++)   this->push_back(mv[i]);
+    for (int i=0;i<mv.size();++i)
+        this->push_back(mv[i]);
     return *this;
 }
+/*
 template<typename T>
 inline
 alloc_vec<T> alloc_vec<T>::operator + (const alloc_vec<T> &mv)
