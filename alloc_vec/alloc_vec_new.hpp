@@ -1,5 +1,3 @@
-// github test
-
 #pragma once
 #include <cstring> // memset
 #include <algorithm> // std::fill, std::lower_bound
